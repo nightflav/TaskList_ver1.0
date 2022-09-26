@@ -6,6 +6,7 @@ Some features:
 3. I think that this kind of output is fancy.
 
 ![image](https://user-images.githubusercontent.com/112074809/192340938-be367c02-c2e5-4531-bb72-562e6787d40f.png)
+
 4. Maybe someday i will add a possibility to save your tasklist as JSON file. But not yet...
 5. Enjoy!!!
 
@@ -17,6 +18,7 @@ Here you can choose an option you want. But in case there is no tasks any option
 After you type "add" keyword you need to input priority(case insesitive), date, time and task itself in this order
 
 ![image](https://user-images.githubusercontent.com/112074809/192344402-4d2d7c30-c107-4fcf-bd3f-0b92a1f03a02.png)
+
 If you try to add an empty task task will not be added and message about your empty task will be displayed.
 When task is succesfully typed in you can edit it, print all the tasks you input or delete any task you want.
 Edititng tasks:
