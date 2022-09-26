@@ -14,6 +14,7 @@ How to use it:
 First time you launch this app you will see this little menu:
 
 ![image](https://user-images.githubusercontent.com/112074809/192343746-a7a17f3e-0e32-41b9-9420-caa320726dd5.png)
+
 Here you can choose an option you want. But in case there is no tasks any option except "end" and "add" will work properly*.
 After you type "add" keyword you need to input priority(case insesitive), date, time and task itself in this order
 
