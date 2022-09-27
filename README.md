@@ -32,7 +32,7 @@ First you need to type "edit" keyword. Then choose task from the list. After tha
 
 Deleting tasks:
 
-First you need to type "delete" keyword. Then choose task from the list. After that you need to choose which field you want to delete. Delete it.
+First you need to type "delete" keyword. Then choose task from the list. Delete it.
 
 
 *in case you want to know what happens if you try to print empty task list
