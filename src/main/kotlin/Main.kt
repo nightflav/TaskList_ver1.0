@@ -110,27 +110,23 @@ class Task {
         return formattedLines
     }
 
-    private fun addZero(number: Int): String {
+    private fun formatDateTime(number: Int): String {
         return if (number < 10) "0${number}" else number.toString()
     }
 
-    private fun addSpaces(year: Int): String {
-        var n = 1000
-        var result = ""
-        while (year % n == year) {
-
-            result += " "
-            n /= 10
-        }
-        return result + year.toString()
-    }
-
     private fun getDate(): String {
-        return "${addSpaces(dateTime.year)}-${addZero(dateTime.monthNumber)}-${addZero(dateTime.dayOfMonth)}"
+        val year = when {
+            dateTime.year < 10 -> "   ${dateTime.year}"
+            dateTime.year < 100 -> "  ${dateTime.year}"
+            dateTime.year < 1000 -> " ${dateTime.year}"
+            else -> dateTime.year.toString()
+        }
+
+        return "$year-${formatDateTime(dateTime.monthNumber)}-${formatDateTime(dateTime.dayOfMonth)}"
     }
 
     private fun getTime(): String {
-        return "${addZero(dateTime.hour)}:${addZero(dateTime.minute)}"
+        return "${formatDateTime(dateTime.hour)}:${formatDateTime(dateTime.minute)}"
     }
 
     fun printTask(index: Int) {
