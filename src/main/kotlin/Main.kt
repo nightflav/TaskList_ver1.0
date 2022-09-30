@@ -35,9 +35,9 @@ class Task {
         println("Input the date (yyyy-mm-dd):")
         val input = readln().lowercase()
         try {
-            val (year, month, day) = input.split("-").map{ it.toInt() }
+            val (year, month, day) = input.split("-").map { it.toInt() }
             dateTime = LocalDateTime(year, month, day, 0, 0)
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             println("The input date is invalid")
             setDate()
         }
@@ -47,7 +47,7 @@ class Task {
         println("Input the time (hh:mm):")
         val input = readln().lowercase()
         try {
-            val (hour, minute) = input.split(":").map{ it.toInt() }
+            val (hour, minute) = input.split(":").map { it.toInt() }
             dateTime = LocalDateTime(dateTime.year, dateTime.monthNumber, dateTime.dayOfMonth, hour, minute)
 
         } catch (e: Exception) {
@@ -64,7 +64,7 @@ class Task {
 
     private fun addTaskContent(newContent: String) = taskContent.add(newContent)
 
-    private fun getPriorityColor(): String = when(priority.lowercase()) {
+    private fun getPriorityColor(): String = when (priority.lowercase()) {
         "c" -> "\u001B[101m \u001B[0m"
         "h" -> "\u001B[103m \u001B[0m"
         "n" -> "\u001B[102m \u001B[0m"
@@ -72,7 +72,7 @@ class Task {
         else -> ""
     }
 
-    private fun getDueTagColor(): String = when(duetag.lowercase()) {
+    private fun getDueTagColor(): String = when (duetag.lowercase()) {
         "i" -> "\u001B[102m \u001B[0m"
         "t" -> "\u001B[103m \u001B[0m"
         "o" -> "\u001B[101m \u001B[0m"
@@ -81,8 +81,8 @@ class Task {
 
     fun setContentData() {
         val input = readln()
-        if(input.isBlank()) {
-            if(this.noContent())
+        if (input.isBlank()) {
+            if (this.noContent())
                 println("The task is blank")
         } else {
             this.addTaskContent(input)
@@ -94,10 +94,10 @@ class Task {
         var oldLines = s
         val formattedLines = mutableListOf<String>()
 
-        while(oldLines.isNotEmpty()) {
+        while (oldLines.isNotEmpty()) {
             var line = ""
             for (i in 1..44) {
-                if(oldLines.isNotEmpty()) {
+                if (oldLines.isNotEmpty()) {
                     line += oldLines.first()
                     oldLines = oldLines.drop(1)
                 } else {
@@ -110,24 +110,35 @@ class Task {
         return formattedLines
     }
 
+    private fun formatDateTime(number: Int): String {
+        return if (number < 10) "0${number}" else number.toString()
+    }
+
+    private fun getDate(): String {
+        val year = when {
+            dateTime.year < 10 -> "   ${dateTime.year}"
+            dateTime.year < 100 -> "  ${dateTime.year}"
+            dateTime.year < 1000 -> " ${dateTime.year}"
+            else -> dateTime.year.toString()
+        }
+
+        return "$year-${formatDateTime(dateTime.monthNumber)}-${formatDateTime(dateTime.dayOfMonth)}"
+    }
+
+    private fun getTime(): String {
+        return "${formatDateTime(dateTime.hour)}:${formatDateTime(dateTime.minute)}"
+    }
+
     fun printTask(index: Int) {
-        val minutes = if (dateTime.minute < 10) "0${dateTime.minute}" else dateTime.minute.toString()
-        val hours = if (dateTime.hour < 10) "0${dateTime.hour}" else dateTime.hour.toString()
-        val months = if (dateTime.monthNumber < 10) "0${dateTime.monthNumber}" else dateTime.monthNumber.toString()
-        val days = if (dateTime.dayOfMonth < 10) "0${dateTime.dayOfMonth}" else dateTime.dayOfMonth.toString()
-
-        val date = "${dateTime.year}-$months-$days"
-        val time = "$hours:$minutes"
-
         val newTaskContent = mutableListOf<String>()
 
-        for(el in taskContent) {
+        for (el in taskContent) {
             newTaskContent.addAll(formattedLine(el))
         }
 
-        println("| ${index + 1}  | $date | $time | ${getPriorityColor()} | ${getDueTagColor()} |${newTaskContent[0]}|")
+        println("| ${index + 1}  | ${getDate()} | ${getTime()} | ${getPriorityColor()} | ${getDueTagColor()} |${newTaskContent[0]}|")
 
-        for(i in 0 until newTaskContent.size - 1)
+        for (i in 0 until newTaskContent.size - 1)
             println("|    |            |       |   |   |${newTaskContent[i + 1]}|")
 
         println("+----+------------+-------+---+---+--------------------------------------------+")
@@ -136,25 +147,29 @@ class Task {
 
     fun editTask() {
         println("Input a field to edit (priority, date, time, task):")
-        when(readln()) {
+        when (readln()) {
             "priority" -> {
                 setPriority()
                 println("The task is changed")
             }
+
             "date" -> {
                 setDate()
                 println("The task is changed")
             }
+
             "time" -> {
                 setTime()
                 println("The task is changed")
             }
+
             "task" -> {
                 taskContent.clear()
                 println("Input a new task (enter a blank line to end):")
                 setContentData()
                 println("The task is changed")
             }
+
             else -> {
                 println("Invalid field")
                 editTask()
@@ -173,16 +188,18 @@ class TaskList {
         task.setNonContentData()
         println("Input a new task (enter a blank line to end):")
         task.setContentData()
-        if(!task.noContent())
+        if (!task.noContent())
             taskList.add(task)
     }
 
     fun printTasks() {
-        println("+----+------------+-------+---+---+--------------------------------------------+\n" +
-                "| N  |    Date    | Time  | P | D |                   Task                     |\n" +
-                "+----+------------+-------+---+---+--------------------------------------------+")
+        println(
+            "+----+------------+-------+---+---+--------------------------------------------+\n" +
+                    "| N  |    Date    | Time  | P | D |                   Task                     |\n" +
+                    "+----+------------+-------+---+---+--------------------------------------------+"
+        )
 
-        for(i in taskList.indices)
+        for (i in taskList.indices)
             taskList[i].printTask(i)
     }
 
@@ -217,7 +234,7 @@ object Process {
 
     fun start() {
         println("Input an action (add, print, edit, delete, end):")
-        when(readln()) {
+        when (readln()) {
             "add" -> addTasks()
             "print" -> printTasks()
             "end" -> endProcess()
@@ -252,7 +269,7 @@ object Process {
     }
 
     private fun printTasks() {
-        if(taskList.isEmpty())
+        if (taskList.isEmpty())
             println("No tasks have been input")
         else
             taskList.printTasks()
@@ -265,5 +282,7 @@ object Process {
 }
 
 fun main() {
-    while (true) { Process.start() }
+    while (true) {
+        Process.start()
+    }
 }
